@@ -11,10 +11,17 @@ const Reports = () => {
     const [loading, setLoading] = useState(false);
     const [reportData, setReportData] = useState(null);
 
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+
+    const showToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => setToast({ show: false, message: '', type: 'success' }), 3500);
+    };
+
     const handleGenerate = async (e) => {
         e.preventDefault();
         if (!dateRange.start || !dateRange.end) {
-            alert("Please select both a start and end date.");
+            showToast("Please select both a start and end date.", "error");
             return;
         }
 
@@ -211,6 +218,18 @@ const Reports = () => {
                     )}
                 </div>
             </div>
+
+            {toast.show && (
+            <div style={{
+                    position: 'fixed', top: '20px', right: '20px', zIndex: 2000,
+                    backgroundColor: toast.type === 'success' ? '#10b981' : '#ef4444',
+                    color: 'white', padding: '12px 24px', borderRadius: '12px',
+                    display: 'flex', alignItems: 'center', gap: '10px', boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+                }}>
+                    {toast.type === 'success' ? <CheckCircle size={20} /> : <AlertTriangle size={20} />}
+                    <span style={{ fontWeight: '600' }}>{toast.message}</span>
+                </div>
+            )}
         </div>
     );
 };
