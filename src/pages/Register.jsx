@@ -20,7 +20,7 @@ const Register = () => {
         setStatus({ type: '', msg: '' }); 
 
         try {
-            await axios.post('/api/auth/register', formData);
+            await API.post('/api/auth/register', formData);
             setStatus({ type: 'success', msg: 'Account Created Successfully! Redirecting...' });
             
             setTimeout(() => navigate('/'), 2000); 
