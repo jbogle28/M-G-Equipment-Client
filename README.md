@@ -1,16 +1,69 @@
-# React + Vite
+========================================================================
+             M&G EQUIPMENT SCHEDULING SYSTEM - DOCUMENTATION
+========================================================================
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+1. PROJECT OVERVIEW
+-------------------
+The M&G Equipment Scheduling System is a full-stack, decoupled 
+application designed to manage heavy machinery, AV equipment, and power 
+tool rentals. It features a React-based management dashboard, a 
+Spring Boot REST API, and a cloud-distributed MySQL database.
 
-Currently, two official plugins are available:
+2. SYSTEM ARCHITECTURE & HOSTING
+--------------------------------
+The application is hosted across a distributed cloud environment to 
+ensure high availability and security.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+A. FRONTEND (User Interface)
+   - Host: Vercel
+   - URL:  https://m-g-equipment-client.vercel.app/
+   - Tech: React (Vite), Lucide-React, Axios
+   - Role: Handles user interactions, dashboard visualization, and 
+           JWT storage (localStorage).
 
-## React Compiler
+B. BACKEND (Logic & Security)
+   - Host: Render
+   - URL:  https://m-g-equipment-server-springboot.onrender.com
+   - Tech: Java, Spring Boot, Spring Security, JWT, Hibernate
+   - Role: Orchestrates business logic, manages authentication via 
+           custom filters, and enforces CORS policies.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+C. DATABASE (Storage)
+   - Host: TiDB Cloud
+   - Tech: MySQL-Compatible Distributed SQL
+   - Schema: equipment_scheduler
+   - Role: Persistent storage for assets, users, and bookings.
 
-## Expanding the ESLint configuration
+3. SECURITY & AUTHENTICATION
+----------------------------
+- Authentication: Stateless JWT (JSON Web Token) tokens.
+- Security Protocol: Custom Spring Security Filter Chain.
+- Access Control: 
+    * Public: /api/auth/** (Login, Registration)
+    * Restricted: /api/dashboard/** (Requires ADMIN or STAFF role)
+- CORS: Explicitly configured to allow requests from the Vercel 
+        production domain and local development (localhost:5173).
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+4. ENVIRONMENT CONFIGURATION
+----------------------------
+For developers running the system locally:
+
+[FRONTEND]
+Variable: VITE_API_URL
+Value:    http://localhost:8080 (Local) or Render URL (Production)
+
+[BACKEND]
+Spring Profile: Production
+DDL-Auto:       update
+Driver:         com.mysql.cj.jdbc.Driver
+
+5. KEY FEATURES
+---------------
+- Real-time inventory tracking (Assets).
+- Customer management with Quick-Add functionality.
+- Automated invoice generation and PDF reporting.
+- Role-based dashboard analytics.
+
+========================================================================
+Generated on: 2026-04-09
+========================================================================
