@@ -35,7 +35,7 @@ const ForgotPassword = () => {
         }
 
         try {
-            await axios.put('http://localhost:8080/api/auth/reset-password', { 
+            await API.put('/api/auth/reset-password', { 
                 email, 
                 newPassword 
             });
